@@ -75,25 +75,7 @@ require "./dbinfo.php";
 		layers: [Esri_WorldImagery, masterplan]
 		}).setView([29.403333, 48.400435], 16); 
 		
-		
-		
-		//Get GEOJSON Data from API 
-		async function getGeojson(){
-			try {
-			const response = await fetch ("./postgis2geojson.php");
-			return await response.json(); 
-			} catch(err) {
-			console.log(err);
-			}
-		}
 
-	getGeojson().then(data => {
-	// Add GEOJSON Layer in Leaflet
-	L.geoJSON([data], {
-	onEachFeature: addGeojsonFeatureFunc,
-	}).addTo(masterplan);
-	});
-	
 		//SLD TEST
 		
 		var geoJsonPromise = fetch("./postgis2geojson.php");
@@ -106,7 +88,7 @@ require "./dbinfo.php";
                var SLDStyler = new L.SLDStyler(SLDText)
                var geojsonLayer = L.geoJson(geoJson, {
                   style: SLDStyler.getStyleFunction()
-               }).addTo(mymap);
+               }).addTo(masterplan);
          });
       });
 	  
@@ -127,8 +109,8 @@ require "./dbinfo.php";
 		
 		
 		//Draw All Layers
-	//var controlLayers = L.control.layers(baseLayers, null, {collapsed:false}).addTo(
-	//mymap);
+	var controlLayers = L.control.layers(baseLayers, overlays, {collapsed:false}).addTo(
+	mymap);
 		</script>
 </body>
 
